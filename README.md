@@ -3,7 +3,7 @@
 A minimal end-to-end example showing:
 
 - A Rust userspace application that continually writes fixed-size messages to `/dev/messagesender`.
-- A Linux kernel toy driver exposing `/dev/messagesender` as a misc character device.
+- A Linux kernel toy platform driver (bound from device tree) that exposes `/dev/messagesender` and writes incoming values directly to a mapped MMIO register window.
 - A PetaLinux device-tree include snippet (`.dtsi`) for integrating the device node.
 
 ## Message format
@@ -24,7 +24,7 @@ The mapped register window for this toy device is 16 bytes total, with four 32-b
 
 - `src/main.rs`: thin CLI entrypoint.
 - `src/lib.rs`: message type, serialization, config parsing, and sender loop.
-- `driver/messagesender.c`: toy kernel module creating `/dev/messagesender`.
+- `driver/messagesender.c`: platform driver + misc char device that maps the MMIO window from device-tree and writes four 32-bit values to offsets `0x0`, `0x4`, `0x8`, and `0xC` on each write.
 - `driver/Makefile`: kernel Kbuild file for the module.
 - `device-tree/messagesender.dtsi`: PetaLinux include snippet with MMIO region `0x43c01000..0x43c0100F` (word addresses `0x43c01000`, `0x43c01004`, `0x43c01008`, `0x43c0100C`).
 - `Makefile`: top-level helper to build both app and driver.
