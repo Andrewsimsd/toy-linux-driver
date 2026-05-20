@@ -1,0 +1,6 @@
+/ {
+	messagesender@0 {
+		compatible = "toy,messagesender";
+		status = "okay";
+	};
+};
