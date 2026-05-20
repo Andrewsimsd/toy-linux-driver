@@ -1,6 +1,7 @@
 / {
-	messagesender@0 {
+	messagesender@43c01000 {
 		compatible = "toy,messagesender";
+		reg = <0x43c01000 0x10>;
 		status = "okay";
 	};
 };
