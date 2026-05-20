@@ -17,13 +17,16 @@ Each message is exactly 16 bytes and contains four little-endian `u32` values:
 
 The Rust app starts with base value `0` and sends `{0,1,2,3}`, `{4,5,6,7}`, `{8,9,10,11}`, and so on.
 
+The mapped register window for this toy device is 16 bytes total, with four 32-bit words at addresses `0x43c01000`, `0x43c01004`, `0x43c01008`, and `0x43c0100C`.
+
+
 ## Project layout
 
 - `src/main.rs`: thin CLI entrypoint.
 - `src/lib.rs`: message type, serialization, config parsing, and sender loop.
 - `driver/messagesender.c`: toy kernel module creating `/dev/messagesender`.
 - `driver/Makefile`: kernel Kbuild file for the module.
-- `device-tree/messagesender.dtsi`: PetaLinux include snippet.
+- `device-tree/messagesender.dtsi`: PetaLinux include snippet with MMIO region `0x43c01000..0x43c0100F` (word addresses `0x43c01000`, `0x43c01004`, `0x43c01008`, `0x43c0100C`).
 - `Makefile`: top-level helper to build both app and driver.
 
 ## Build
